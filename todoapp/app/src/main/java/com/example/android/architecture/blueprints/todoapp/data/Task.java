@@ -27,13 +27,13 @@ import java.util.UUID;
  */
 public final class Task {
 
-    private final String mId;
+    private  String mId;
 
     @Nullable
-    private final String mTitle;
+    private  String mTitle;
 
     @Nullable
-    private final String mDescription;
+    private  String mDescription;
 
     private boolean mCompleted;
     /**
@@ -152,5 +152,10 @@ public final class Task {
     @Override
     public String toString() {
         return "Task with title " + mTitle;
+    }
+
+    public void  change(String title,String content){
+        this.mTitle = title;
+        this.mDescription = content;
     }
 }

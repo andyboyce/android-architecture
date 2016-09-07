@@ -48,6 +48,8 @@ public interface TaskDetailContract {
 
         void deleteTask();
 
+        void changeTask();
+
         void completeChanged(Task task, boolean isChecked);
     }
 }

@@ -18,6 +18,7 @@ package com.example.android.architecture.blueprints.todoapp.taskdetail;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -84,6 +85,7 @@ public class TaskDetailFragment extends Fragment implements TaskDetailContract.V
 
         View view = inflater.inflate(R.layout.taskdetail_frag, container, false);
 
+        //KEY init binding object
         mViewDataBinding = TaskdetailFragBinding.bind(view);
 
         setHasOptionsMenu(true);
@@ -113,6 +115,9 @@ public class TaskDetailFragment extends Fragment implements TaskDetailContract.V
             case R.id.menu_delete:
                 String taskId = getArguments().getString(ARGUMENT_TASK_ID);
                 mPresenter.deleteTask();
+                return true;
+            case R.id.menu_change:
+                mPresenter.changeTask();
                 return true;
         }
         return false;
@@ -145,6 +150,7 @@ public class TaskDetailFragment extends Fragment implements TaskDetailContract.V
     public void showError() {
         // If an error occurred, simply show an empty task.
         Task emptyTask = new Task("", getString(R.string.no_data));
+        //KEY input object(data value) to xml
         mViewDataBinding.setTask(emptyTask);
     }
 

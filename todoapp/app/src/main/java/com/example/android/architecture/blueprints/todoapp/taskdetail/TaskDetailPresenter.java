@@ -34,6 +34,7 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
 
     @NonNull
     private String mTaskId;
+    private Task mTask;
 
     public TaskDetailPresenter(@NonNull String taskId, TasksRepository repository,
             @NonNull TaskDetailContract.View view) {
@@ -56,6 +57,7 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
             @Override
             public void onTaskLoaded(Task task) {
                 // The view may not be able to handle UI updates anymore
+                mTask = task;
                 if (!mTaskDetailView.isActive()) {
                     return;
                 }
@@ -81,6 +83,19 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
     public void deleteTask() {
         mRepository.deleteTask(mTaskId);
         mTaskDetailView.showTaskDeleted();
+    }
+
+    @Override
+    public void changeTask() {
+        //KEY 1，Success 重新赋值，可以改变。
+//        Task task = new Task("changeTitle","changeContent");
+//        mTaskDetailView.showTask(task);
+        //KEY 2，Failed 直接修改数据，视图并没有被改变
+//        mTask.change("changeTitle","changeContent");
+
+        //KEY 3，Success 直接修改数据，重新设置
+        mTask.change("changeTitle","changeContent");
+        mTaskDetailView.showTask(mTask); //相当于KEY 1
     }
 
     /**

@@ -20,4 +20,8 @@
         android:id="@+id/menu_delete"
         android:title="@string/menu_delete_task"
         app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/menu_change"
+        android:title="@string/menu_change_task"
+        app:showAsAction="never" />
 </menu>
