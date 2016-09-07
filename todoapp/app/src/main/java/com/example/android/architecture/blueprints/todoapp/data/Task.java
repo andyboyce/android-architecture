@@ -16,26 +16,45 @@
 
 package com.example.android.architecture.blueprints.todoapp.data;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
+import com.example.android.architecture.blueprints.todoapp.BR;
 import com.google.common.base.Objects;
 
 import java.util.UUID;
 
 /**
  * Immutable model class for a Task.
+ * KEY 非静态的类，不能生成BR的属性。即便成员变量是静态的也不可以。
+ * 之所以尝试失败，是因为 @Bindable 没有写在真正的Setter上。
  */
-public final class Task {
+public class Task extends BaseObservable {
 
-    private  String mId;
 
-    @Nullable
-    private  String mTitle;
+    private String id;
 
     @Nullable
-    private  String mDescription;
+    private String title;
+
+    public void setTitle(@Nullable String title) {
+        this.title = title;
+        notifyPropertyChanged(BR.title);
+    }
+
+    public void setDescription(@Nullable String description) {
+        this.description = description;
+        notifyPropertyChanged(BR.description);
+    }
+
+    @Nullable
+    private String description;
+
+
 
     private boolean mCompleted;
+
     /**
      * Use this constructor to create a new active Task.
      *
@@ -43,9 +62,9 @@ public final class Task {
      * @param description
      */
     public Task(@Nullable String title, @Nullable String description) {
-        mId = UUID.randomUUID().toString();
-        mTitle = title;
-        mDescription = description;
+        id = UUID.randomUUID().toString();
+        this.title = title;
+        this.description = description;
         mCompleted = false;
     }
 
@@ -55,12 +74,12 @@ public final class Task {
      *
      * @param title
      * @param description
-     * @param id of the class
+     * @param id          of the class
      */
     public Task(@Nullable String title, @Nullable String description, String id) {
-        mId = id;
-        mTitle = title;
-        mDescription = description;
+        this.id = id;
+        this.title = title;
+        this.description = description;
         mCompleted = false;
     }
 
@@ -72,9 +91,9 @@ public final class Task {
      * @param completed
      */
     public Task(@Nullable String title, @Nullable String description, boolean completed) {
-        mId = UUID.randomUUID().toString();
-        mTitle = title;
-        mDescription = description;
+        id = UUID.randomUUID().toString();
+        this.title = title;
+        this.description = description;
         mCompleted = completed;
     }
 
@@ -88,33 +107,35 @@ public final class Task {
      * @param completed
      */
     public Task(@Nullable String title, @Nullable String description, String id, boolean completed) {
-        mId = id;
-        mTitle = title;
-        mDescription = description;
+        this.id = id;
+        this.title = title;
+        this.description = description;
         mCompleted = completed;
     }
 
     public String getId() {
-        return mId;
+        return id;
     }
 
     @Nullable
+    @Bindable
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     @Nullable
     public String getTitleForList() {
-        if (mTitle != null && !mTitle.equals("")) {
-            return mTitle;
+        if (title != null && !title.equals("")) {
+            return title;
         } else {
-            return mDescription;
+            return description;
         }
     }
 
     @Nullable
+    @Bindable
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public boolean isCompleted() {
@@ -130,8 +151,8 @@ public final class Task {
     }
 
     public boolean isEmpty() {
-        return (mTitle == null || "".equals(mTitle)) &&
-                (mDescription == null || "".equals(mDescription));
+        return (title == null || "".equals(title)) &&
+                (description == null || "".equals(description));
     }
 
     @Override
@@ -139,23 +160,19 @@ public final class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equal(mId, task.mId) &&
-                Objects.equal(mTitle, task.mTitle) &&
-                Objects.equal(mDescription, task.mDescription);
+        return Objects.equal(id, task.id) &&
+                Objects.equal(title, task.title) &&
+                Objects.equal(description, task.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(mId, mTitle, mDescription);
+        return Objects.hashCode(id, title, description);
     }
 
     @Override
     public String toString() {
-        return "Task with title " + mTitle;
+        return "Task with title " + title;
     }
 
-    public void  change(String title,String content){
-        this.mTitle = title;
-        this.mDescription = content;
-    }
 }

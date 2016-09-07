@@ -94,8 +94,13 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
 //        mTask.change("changeTitle","changeContent");
 
         //KEY 3，Success 直接修改数据，重新设置
-        mTask.change("changeTitle","changeContent");
-        mTaskDetailView.showTask(mTask); //相当于KEY 1
+//        mTask.change("changeTitle","changeContent");
+//        mTaskDetailView.showTask(mTask); //相当于KEY 1
+
+        //KEY 4，Success 数据对象直接继承BaseObervale
+        mTask.setDescription("changeContent");
+        mTask.setTitle("changeTitle");
+
     }
 
     /**
